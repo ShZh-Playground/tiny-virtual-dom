@@ -18,7 +18,7 @@
   "homepage": "https://github.com/ShZh-Playground/tiny-virtual-dom#readme",
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E $HUSKY_GIT_PARAMS"
+      "commit-msg": "./node_modules/.bin/commitlint -E $HUSKY_GIT_PARAMS"
     }
   },
   "devDependencies": {
