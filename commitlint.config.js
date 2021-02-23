@@ -1,15 +1,15 @@
 const types = [
-  ':package: build', 
-  ':watch: ci', 
-  ':book: docs', 
-  ':art: feat', 
-  ':bug: fix', 
-  ':computer: perf', 
-  ':rainbow: refactor', 
-  ':construction: revert',
-  ':sparkles: style', 
-  ':wrench: test', 
-  ':hammer: chore'
+  '📦 build', 
+  '⌚ ci', 
+  '📖 docs', 
+  '🎨 feat', 
+  '🐛 fix', 
+  '💻 perf', 
+  '🌈 refactor', 
+  '🚧 revert',
+  '✨ style', 
+  '🛡 test', 
+  '⚙ chore'
 ];
 
 module.exports = {
