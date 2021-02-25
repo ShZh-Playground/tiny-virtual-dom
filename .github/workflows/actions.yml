@@ -18,6 +18,9 @@ jobs:
       - name: Format check
         run: |
           npm run format-check
+      - name: Test
+        run: |
+          npm test
       - name: Code coverage
         uses: codecov/codecov-action@v1
         with:
@@ -25,7 +28,4 @@ jobs:
           name: tiny-virtual-dom-codecov
           fail_ci_if_error: true
           verbose: true
-      - name: Test
-        run: |
-          npm test
 # TODO: using ncc when packaging

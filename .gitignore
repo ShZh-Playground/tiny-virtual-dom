@@ -5,6 +5,8 @@
 /out-tsc
 # Only exists if Bazel was run
 /bazel-out
+# For codecov
+/coverage
 
 # dependencies
 /node_modules
