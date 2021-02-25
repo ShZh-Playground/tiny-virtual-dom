@@ -1,0 +1,6 @@
+dist/
+lib/
+node_modules/
+commitlint-parser.js
+commitlint.config.js
+jest.config.js
