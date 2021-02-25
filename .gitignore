@@ -1,5 +1,4 @@
 .git/
-.husky/
 # compiled output
 /dist
 /tmp
