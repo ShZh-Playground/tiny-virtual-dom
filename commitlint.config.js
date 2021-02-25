@@ -1,15 +1,15 @@
 const types = [
   '📦 build', 
-  '⌚ ci', 
+  '🔁 ci', 
   '📖 docs', 
-  '🎨 feat', 
+  '🔨 feat', 
   '🐞 fix', 
-  '💻 perf', 
+  '🚀 perf', 
   '🌈 refactor', 
   '🚧 revert',
   '✨ style', 
   '🛡 test', 
-  '⚙ chore',
+  '🗑 chore',
 ];
 
 module.exports = {
