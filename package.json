@@ -16,11 +16,6 @@
     "url": "https://github.com/ShZh-Playground/tiny-virtual-dom/issues"
   },
   "homepage": "https://github.com/ShZh-Playground/tiny-virtual-dom#readme",
-  "husky": {
-    "hooks": {
-      "commit-msg": "./node_modules/.bin/commitlint -E $HUSKY_GIT_PARAMS"
-    }
-  },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
     "@types/node": "^14.14.31",
