@@ -9,12 +9,7 @@
     </a>
 <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FShZh-Playground%2Ftiny-virtual-dom?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FShZh-Playground%2Ftiny-virtual-dom.svg?type=shield"/></a>
 </p>
-
 Virtual dom implementation written by typescript.
-
-
-
-
 
 
 

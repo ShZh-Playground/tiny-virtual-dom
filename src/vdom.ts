@@ -31,7 +31,7 @@ class El {
         const text = document.createTextNode(this.children);
         el.appendChild(text);
       } else if (Array.isArray(this.children)) {
-        for (const child of this.children as El[]) {
+        for (const child of this.children) {
           el.appendChild(child.render());
         }
       } else {

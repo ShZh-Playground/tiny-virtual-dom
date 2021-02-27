@@ -29,7 +29,7 @@ describe("test El's method", () => {
     const root = new El('ul', {class: 'list'}, [
       new El('li'),
       new El('li', null, 'banana'),
-      new El('li', {id: 3}, 'tomato')
+      new El('li', {id: 3}, new El('p'))
     ]);
 
     document.body.appendChild(root.render());
