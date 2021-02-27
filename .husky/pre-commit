@@ -1,7 +1,13 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-echo "Start format"
-npm run format
-echo "Start lint"
-npm run lint
+if [ $(git status --short | awk '{print $2}' | egrep -c 'src/|test/') -ge 1 ]
+then
+  echo -e "Find changes in source code or test files:"
+  echo -e "\033[31m \n\nStart format: \033[31m"
+  npm run format
+  echo -e "\n\nStart lint:"
+  npm run lint
+  echo -e "\n\nStart unit test:"
+  npm test
+fi
