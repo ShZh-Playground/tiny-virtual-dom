@@ -8,6 +8,7 @@
     "format-check": "prettier --check **/*.ts",
     "lint": "eslint --fix src/**/*.ts",
     "lint-check": "eslint src/**/*.ts",
+    "pre-commit": "prettier --write **/*.ts && eslint src/**/*.ts && jest",
     "test": "jest"
   },
   "repository": {
