@@ -1,4 +1,5 @@
-import El from '../src/vdom';
+import {VirtualNode} from '../src/vnode';
+import vnode from '../src/vnode';
 
 // JQuery-like selector
 function $(selector: string): HTMLElement | null {
@@ -7,16 +8,16 @@ function $(selector: string): HTMLElement | null {
 
 describe("test El's constructor", () => {
   test("test El's normal constructor", () => {
-    const el = new El('ul', {class: 'list'}, [
-      new El('li', {id: 1}, 'apple'),
-      new El('li', {id: 2}, 'banana'),
-      new El('li', {id: 3}, 'tomato')
+    const el = vnode('ul', {class: 'list'}, [
+      vnode('li', {id: 1}, 'apple'),
+      vnode('li', {id: 2}, 'banana'),
+      vnode('li', {id: 3}, 'tomato')
     ]);
 
     expect(el.tagName).toEqual('ul');
     expect(el.attribute).toEqual({class: 'list'});
 
-    const children = el.children as El[];
+    const children = el.children as VirtualNode[];
     expect(children).toHaveLength(3);
     expect(children[0].tagName).toEqual('li');
     expect(children[0].attribute).toEqual({id: 1});
@@ -26,10 +27,10 @@ describe("test El's constructor", () => {
 
 describe("test El's method", () => {
   test("test El's render method", () => {
-    const root = new El('ul', {class: 'list'}, [
-      new El('li'),
-      new El('li', null, 'banana'),
-      new El('li', {id: 3}, new El('p'))
+    const root = vnode('ul', {class: 'list'}, [
+      vnode('li'),
+      vnode('li', 'banana'),
+      vnode('li', {id: 3}, vnode('p'))
     ]);
 
     document.body.appendChild(root.render());
