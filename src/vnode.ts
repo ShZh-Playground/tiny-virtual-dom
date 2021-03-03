@@ -11,7 +11,7 @@ export class VirtualNode {
 
   constructor(tagName: string, attribute?: Attribute, children?: ChildrenType) {
     this.tagName = tagName;
-    this.attribute = attribute || {discrimiator: 'Attribute'}; // Deal with `undefined`
+    this.attribute = attribute || {}; // Deal with `undefined`
     this.children = children || [];
   }
 
