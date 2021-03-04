@@ -3,11 +3,20 @@
 
 if [ $(git status --short | awk '{print $2}' | egrep -c 'src/|test/') -ge 1 ]
 then
-  echo -e "Find changes in source code or test files:"
-  echo -e "\033[31m \n\nStart format: \033[31m"
-  npm run format
-  echo -e "\n\nStart lint:"
-  npm run lint
-  echo -e "\n\nStart unit test:"
-  npm test
+  echo -e "Find changes in source code or test files"
+  until [ $(echo $answer | egrep -c [YyNn]) -ge 1 ]
+  do
+    echo -e "Would you like to link, format and test your code before commit? (Y/N)"
+    read answer
+  done
+
+  if [[ $answer == 'y' || $answer == 'Y' || $answer == '\n' ]];
+  then
+    echo -e "\n\nStart format:"
+    npm run format
+    echo -e "\n\nStart lint:"
+    npm run lint
+    echo -e "\n\nStart unit test:"
+    npm test
+  fi
 fi
