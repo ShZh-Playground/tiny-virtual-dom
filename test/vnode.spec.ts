@@ -1,4 +1,3 @@
-import {VirtualNode} from '../src/vnode';
 import vnode from '../src/vnode';
 
 // JQuery-like selector
@@ -17,11 +16,10 @@ describe("test El's constructor", () => {
     expect(el.tagName).toEqual('ul');
     expect(el.attribute).toEqual({class: 'list'});
 
-    const children = el.children as VirtualNode[];
-    expect(children).toHaveLength(3);
-    expect(children[0].tagName).toEqual('li');
-    expect(children[0].attribute).toEqual({id: 1});
-    expect(children[0].children).toEqual('apple');
+    expect(el.children).toHaveLength(3);
+    expect(el.children[0].tagName).toEqual('li');
+    expect(el.children[0].attribute).toEqual({id: 1});
+    expect(el.children[0].children[0].text).toEqual('apple');
   });
 
   test("test El's constructor with 2 parameters", () => {
@@ -35,17 +33,16 @@ describe("test El's constructor", () => {
     expect(el.attribute).toEqual({});
     expect(el.children).toHaveLength(3);
 
-    const children = el.children as VirtualNode[];
-    expect(children[0].children).toEqual('Header');
-    expect(children[0].attribute).toEqual({});
-    expect(children[1].attribute).toEqual({id: 1});
-    expect(children[1].children).toEqual([]);
-    expect(children[2].attribute).toEqual({});
+    expect(el.children[0].children[0].text).toEqual('Header');
+    expect(el.children[0].attribute).toEqual({});
+    expect(el.children[1].attribute).toEqual({id: 1});
+    expect(el.children[1].children).toEqual([]);
+    expect(el.children[2].attribute).toEqual({});
 
-    const childOfChildren = children[2].children as VirtualNode;
+    const childOfChildren = el.children[2].children[0];
     expect(childOfChildren.tagName).toEqual('li');
     expect(childOfChildren.attribute).toEqual({});
-    expect(childOfChildren.children).toEqual('Hello');
+    expect(childOfChildren.children[0].text).toEqual('Hello');
   });
 
   test("test El's constructor with one parameter", () => {
