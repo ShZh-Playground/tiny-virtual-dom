@@ -11,6 +11,7 @@ export class VirtualNode {
   attribute: Attribute;
   children: VirtualNode[]; // Should be array of its' class
   text: string;
+  element: Node | undefined;
 
   constructor(
     tagName: string | undefined,
@@ -21,6 +22,7 @@ export class VirtualNode {
     this.tagName = tagName;
     this.attribute = attribute || {};
     this.text = text || '';
+    this.element = undefined;
     // Unify all kinds of children parameters
     if (children) {
       if (typeof children === 'string') {
@@ -44,7 +46,8 @@ export class VirtualNode {
   render(): Node {
     // Text Node
     if (!this.tagName) {
-      return document.createTextNode(this.text);
+      this.element = document.createTextNode(this.text);
+      return this.element;
     }
     // Create Node with tag
     const el = document.createElement(this.tagName);
@@ -57,8 +60,15 @@ export class VirtualNode {
     for (const child of this.children) {
       el.appendChild(child.render());
     }
+    this.element = el;
 
     return el;
+  }
+
+  getKey(): string {
+    return this.text
+      ? this.text
+      : `${this.tagName}@${JSON.stringify(this.attribute)}`; // Mangled
   }
 }
 
