@@ -33,5 +33,5 @@ We are glad and welcome if you want to share your demo by pull request.
 
 
 
-## License
+# License
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FShZh-Playground%2Ftiny-virtual-dom.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FShZh-Playground%2Ftiny-virtual-dom?ref=badge_large)
