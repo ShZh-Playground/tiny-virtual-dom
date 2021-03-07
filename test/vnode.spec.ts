@@ -61,8 +61,9 @@ describe("test El's method", () => {
       vnode('li', 'banana'),
       vnode('li', {id: 3}, vnode('p'))
     ]);
+    root.render();
 
-    document.body.appendChild(root.render());
+    document.body.appendChild(root.element!);
 
     expect($('ul')?.getAttribute('class')).toEqual('list');
     expect($('ul')?.children.length).toEqual(3);
