@@ -87,6 +87,26 @@ export function assignWithoutElement(
   oldNode.children = newNode.children;
 }
 
+export function toVNode(el: Element): VirtualNode {
+  const toAttributes = (nodeMap: NamedNodeMap) => {
+    const attributes: Attribute = {};
+    for (let i = 0; i < nodeMap.length; ++i) {
+      attributes[nodeMap[i].name] = nodeMap[i].value;
+    }
+    return attributes;
+  }
+
+  const tagName = el.tagName;
+  const attributes = toAttributes(el.attributes);
+  const children: VirtualNode[] = [];
+  for (let i = 0; i < el.children.length; ++i) {
+    children.push(toVNode(el.children[i]));
+  }
+  const vnode = new VirtualNode(tagName, attributes, children);
+  vnode.element = el;
+  return vnode;
+}
+
 // Builder pattern
 function vnode(
   tagName: string,
