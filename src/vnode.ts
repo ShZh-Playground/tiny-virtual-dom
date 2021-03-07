@@ -70,8 +70,8 @@ export class VirtualNode {
     // Lazy load when get `key` field
     if (!this.key) {
       this.key = this.text
-      ? this.text
-      : `${this.tagName}@${JSON.stringify(this.attribute)}`; // Mangled
+        ? this.text
+        : `${this.tagName}@${JSON.stringify(this.attribute)}`; // Mangled
     }
     return this.key;
   }
