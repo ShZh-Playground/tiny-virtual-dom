@@ -50,7 +50,7 @@ function patchChildren(
   oldChildren: (VirtualNode | null)[],
   newChildren: VirtualNode[]
 ): void {
-  const map = generateMap(oldChildren as VirtualNode[]);
+  let map: Map<string, number> | null = null;
   const oldPtr: pointers = {front: 0, rear: oldChildren.length - 1};
   const newPtr: pointers = {front: 0, rear: newChildren.length - 1};
 
@@ -87,6 +87,10 @@ function patchChildren(
       --oldPtr.rear;
       ++newPtr.front;
     } else {
+      // Lazy load map
+      if (!map) {
+        map = generateMap(oldChildren as VirtualNode[]);
+      }
       const index = map.get(newFrontNode.getKey());
       if (index && oldChildren[index]) {
         // Do have the corresponding node

@@ -12,6 +12,7 @@ export class VirtualNode {
   children: VirtualNode[]; // Should be array of its' class
   text: string;
   element: Node | undefined;
+  key: string | undefined;
 
   constructor(
     tagName: string | undefined,
@@ -66,9 +67,13 @@ export class VirtualNode {
   }
 
   getKey(): string {
-    return this.text
+    // Lazy load when get `key` field
+    if (!this.key) {
+      this.key = this.text
       ? this.text
       : `${this.tagName}@${JSON.stringify(this.attribute)}`; // Mangled
+    }
+    return this.key;
   }
 }
 
