@@ -4,6 +4,7 @@
   "description": "Tiny virtual DOM library implemented by typescript.",
   "main": "index.js",
   "scripts": {
+    "prepare": "husky install",
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
     "lint": "eslint --fix src/**/*.ts",
