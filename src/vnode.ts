@@ -72,6 +72,16 @@ export class VirtualNode {
   }
 }
 
+export function assignWithoutElement(
+  oldNode: VirtualNode,
+  newNode: VirtualNode
+): void {
+  oldNode.tagName = newNode.tagName;
+  oldNode.attribute = newNode.attribute;
+  oldNode.text = newNode.text;
+  oldNode.children = newNode.children;
+}
+
 // Builder pattern
 function vnode(
   tagName: string,

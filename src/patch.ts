@@ -1,5 +1,4 @@
-import {deleteNode, insertBefore, replaceNode, updateAttribute} from './dom';
-import {VirtualNode} from './vnode';
+import {assignWithoutElement, Attribute, VirtualNode} from './vnode';
 
 interface pointers {
   front: number;
@@ -17,6 +16,28 @@ function generateMap(nodeList: VirtualNode[]): Map<string, number> {
     resultMap.set(nodeList[i].getKey(), i);
   }
   return resultMap;
+}
+
+function updateAttribute(
+  node: Element,
+  oldAttrs: Attribute,
+  newAttrs: Attribute
+): void {
+  for (const attrKey in oldAttrs) {
+    if (!newAttrs[attrKey]) {
+      // Deleting attribute
+      node.removeAttribute(attrKey);
+    } else if (oldAttrs[attrKey] !== newAttrs[attrKey]) {
+      // Change same key attribute
+      node.setAttribute(attrKey, newAttrs[attrKey].toString());
+    }
+  }
+  for (const attrKey in newAttrs) {
+    if (!oldAttrs[attrKey]) {
+      // Adding attribute
+      node.setAttribute(attrKey, newAttrs[attrKey].toString());
+    }
+  }
 }
 
 function patch(oldVDOM: VirtualNode, newVDOM: VirtualNode): void {
@@ -43,12 +64,10 @@ function patchNode(oldVDOM: VirtualNode, newVDOM: VirtualNode): void {
     return;
   }
 
-  // Different tagname: replace old DOM with new DOM
-  if (oldVDOM.tagName !== newVDOM.tagName) {
-    replaceNode(parent!, oldVDOM.element!, newVDOM.render());
-    assignWithoutElement(oldVDOM, newVDOM);
-    return;
-  }
+  // Note: No need to consider tagname difference
+  // (1). Root elements with different tagname have been considered before
+  // (2). As chilren of some elements they must be the same tagname to enter this function
+
   // Different attribute
   updateAttribute(
     oldVDOM.element as Element,
@@ -94,12 +113,15 @@ function patchChildren(
       --newPtr.rear;
     } else if (isSimilarNode(oldFrontNode, newRearNode)) {
       patchNode(oldFrontNode, newRearNode);
-      insertBefore(oldFrontNode.element!, oldRearNode.element?.nextSibling!);
+      parent.insertBefore(
+        oldFrontNode.element!,
+        oldRearNode.element?.nextSibling!
+      );
       ++oldPtr.front;
       --newPtr.rear;
     } else if (isSimilarNode(oldRearNode, newFrontNode)) {
       patchNode(oldRearNode, newFrontNode);
-      insertBefore(oldRearNode.element!, oldFrontNode.element!);
+      parent.insertBefore(oldRearNode.element!, oldFrontNode.element!);
       --oldPtr.rear;
       ++newPtr.front;
     } else {
@@ -108,7 +130,10 @@ function patchChildren(
         // Do have the corresponding node
         patchNode(oldChildren[index]!, newFrontNode);
         // Move the old node to the front
-        insertBefore(oldChildren[index]!.element!, oldFrontNode.element!);
+        parent.insertBefore(
+          oldChildren[index]!.element!,
+          oldFrontNode.element!
+        );
         // Set undefined to avoid duplication
         oldChildren[index] = null;
       } else {
@@ -124,7 +149,9 @@ function patchChildren(
   while (oldPtr.front <= oldPtr.rear) {
     const curNode = oldChildren[oldPtr.front++];
     if (curNode) {
-      deleteNode(curNode.element!);
+      const targetElement = curNode.element!; // OldChilren must have element defined
+      const targetParent = targetElement.parentNode;
+      targetParent?.removeChild(targetElement);
     }
   }
   // Need to add new elements
@@ -135,16 +162,6 @@ function patchChildren(
       : null;
     parent.insertBefore(curNode.render(), srcNode);
   }
-}
-
-function assignWithoutElement(
-  oldNode: VirtualNode,
-  newNode: VirtualNode
-): void {
-  oldNode.tagName = newNode.tagName;
-  oldNode.attribute = newNode.attribute;
-  oldNode.text = newNode.text;
-  oldNode.children = newNode.children;
 }
 
 export default patch;
