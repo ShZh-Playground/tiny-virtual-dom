@@ -1,6 +1,4 @@
-import vnode, { toVNode } from './vnode';
+import vnode, {toVNode} from './vnode';
 import patch from './patch';
 
-export {
-  vnode, toVNode, patch
-};
+export {vnode, toVNode, patch};
