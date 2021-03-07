@@ -9,6 +9,10 @@
         "--inspect-brk",
         "${workspaceRoot}/node_modules/.bin/jest",
         "--runInBand",
+        // "--findRelatedTests",
+        // ".\\test\\vnode.spec.ts"
+        "-t",
+        "'test common cases'"
       ],
       "windows": {
         "runtimeArgs": [
