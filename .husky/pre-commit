@@ -12,11 +12,11 @@ then
 
   if [[ $answer == 'y' || $answer == 'Y' || $answer == '\n' ]];
   then
-    echo -e "\nStart format:"
+    echo -e "\n\nStart format:"
     npm run format
-    echo -e "\nStart lint:"
+    echo -e "\n\nStart lint:"
     npm run lint
-    echo -e "\nStart unit test:"
+    echo -e "\n\nStart unit test:"
     npm test
   fi
 fi

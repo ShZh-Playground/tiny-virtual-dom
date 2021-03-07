@@ -1,50 +1,12 @@
-import {assignWithoutElement, Attribute, VirtualNode} from './vnode';
+import {generateMap, isSimilarNode, updateAttribute} from './utils';
+import {assignWithoutElement, VirtualNode} from './vnode';
 
 interface pointers {
   front: number;
   rear: number;
 }
 
-// Do not need to call render method
-function isSimilarNode(node1: VirtualNode, node2: VirtualNode): boolean {
-  return node1.tagName === node2.tagName;
-}
-
-function generateMap(nodeList: VirtualNode[]): Map<string, number> {
-  const resultMap: Map<string, number> = new Map();
-  for (let i = 0; i < nodeList.length; ++i) {
-    resultMap.set(nodeList[i].getKey(), i);
-  }
-  return resultMap;
-}
-
-function updateAttribute(
-  node: Element,
-  oldAttrs: Attribute,
-  newAttrs: Attribute
-): void {
-  for (const attrKey in oldAttrs) {
-    if (!newAttrs[attrKey]) {
-      // Deleting attribute
-      node.removeAttribute(attrKey);
-    } else if (oldAttrs[attrKey] !== newAttrs[attrKey]) {
-      // Change same key attribute
-      node.setAttribute(attrKey, newAttrs[attrKey].toString());
-    }
-  }
-  for (const attrKey in newAttrs) {
-    if (!oldAttrs[attrKey]) {
-      // Adding attribute
-      node.setAttribute(attrKey, newAttrs[attrKey].toString());
-    }
-  }
-}
-
 function patch(oldVDOM: VirtualNode, newVDOM: VirtualNode): void {
-  patchNode(oldVDOM, newVDOM);
-}
-
-function patchNode(oldVDOM: VirtualNode, newVDOM: VirtualNode): void {
   if (!oldVDOM.element) {
     oldVDOM.render();
   }
@@ -104,15 +66,15 @@ function patchChildren(
     } else if (oldRearNode === null) {
       --oldPtr.rear;
     } else if (isSimilarNode(oldFrontNode, newFrontNode)) {
-      patchNode(oldFrontNode, newFrontNode);
+      patch(oldFrontNode, newFrontNode);
       ++oldPtr.front;
       ++newPtr.front;
     } else if (isSimilarNode(oldRearNode, newRearNode)) {
-      patchNode(oldRearNode, newRearNode);
+      patch(oldRearNode, newRearNode);
       --oldPtr.rear;
       --newPtr.rear;
     } else if (isSimilarNode(oldFrontNode, newRearNode)) {
-      patchNode(oldFrontNode, newRearNode);
+      patch(oldFrontNode, newRearNode);
       parent.insertBefore(
         oldFrontNode.element!,
         oldRearNode.element?.nextSibling!
@@ -120,7 +82,7 @@ function patchChildren(
       ++oldPtr.front;
       --newPtr.rear;
     } else if (isSimilarNode(oldRearNode, newFrontNode)) {
-      patchNode(oldRearNode, newFrontNode);
+      patch(oldRearNode, newFrontNode);
       parent.insertBefore(oldRearNode.element!, oldFrontNode.element!);
       --oldPtr.rear;
       ++newPtr.front;
@@ -128,7 +90,7 @@ function patchChildren(
       const index = map.get(newFrontNode.getKey());
       if (index && oldChildren[index]) {
         // Do have the corresponding node
-        patchNode(oldChildren[index]!, newFrontNode);
+        patch(oldChildren[index]!, newFrontNode);
         // Move the old node to the front
         parent.insertBefore(
           oldChildren[index]!.element!,
