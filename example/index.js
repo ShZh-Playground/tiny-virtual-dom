@@ -15,5 +15,3 @@ const newDOM = vnode(
 setTimeout(() => {
   patch(oldDOM, newDOM);
 }, 5000);
-
-console.log('Hello');
