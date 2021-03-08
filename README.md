@@ -13,8 +13,12 @@
 
 # Usage
 
-```
-git@github.com:ShZh-Playground/tiny-virtual-dom.git
+```bash
+# Install by git
+git clone git@github.com:ShZh-Playground/tiny-virtual-dom.git
+# Install by npm
+npm install @shzh-playground/tiny-virtual-dom
+
 npm install
 npm run build
 ```
