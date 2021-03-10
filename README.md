@@ -14,10 +14,8 @@
 # Usage
 
 ```bash
-# Install by git
+# Directly install by npm is not suggested, it will checkout master branch by default
 git clone git@github.com:ShZh-Playground/tiny-virtual-dom.git
-# Install by npm
-npm install @shzh-playground/tiny-virtual-dom
 
 npm install
 npm run build
