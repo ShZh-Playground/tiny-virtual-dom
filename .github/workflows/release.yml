@@ -1,0 +1,44 @@
+name: Create release and publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    name: create release  # Source code release
+    runs-on: ubuntu-lastest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Create release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+  
+  publish:
+    name: publish   # Need to bundle before packaing
+    runs-on: ubuntu-lastest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup node env
+        uses: actions/setup-node@v1
+          with:
+          node-version: '12.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@ShZh7'
+      - name: Install
+        run: npm install
+      - name: Bundle
+        run: npm run build
+      - name: Publish
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

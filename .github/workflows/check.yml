@@ -1,0 +1,43 @@
+name: Check commits on main branch
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup node env
+        uses: actions/setup-node@v1
+      - name: Format check
+        run: npm run format-check
+      - name: Lint
+        run: npm run lint
+
+  test:
+    name: test
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, macos-latest, windows-lastest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup node env
+        uses: actions/setup-node@v1
+      - name: Install and build
+        run: npm install
+      - name: Test
+        run: npm test
+      - name: Code coverage
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          name: tiny-virtual-dom-codecov
+          fail_ci_if_error: true
+          verbose: true
